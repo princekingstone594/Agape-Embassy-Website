@@ -1,4 +1,4 @@
-# Grace Fellowship Church Website
+# Agape Embassy Church Website
 
 A small PHP church website starter built for a XAMPP-style environment.
 
