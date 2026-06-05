@@ -42,6 +42,55 @@ require_once __DIR__ . '/includes/header.php';
                 <p class="meta"><?= e($event['date']); ?></p>
                 <h3><?= e($event['title']); ?></h3>
                 <p><?= e($event['time']); ?> at <?= e($event['location']); ?></p>
+                <p><?= e($event['description']); ?></p>
+            </article>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<section class="section word-section">
+    <div class="word-card">
+        <p class="eyebrow">Word Of The Year</p>
+        <h2><?= e($wordOfTheYear['year']); ?> <?= e(strtoupper($wordOfTheYear['theme'])); ?></h2>
+        <p class="word-reference"><?= e($wordOfTheYear['reference']); ?></p>
+        <blockquote><?= e($wordOfTheYear['verse']); ?></blockquote>
+    </div>
+</section>
+
+<section class="section band">
+    <div class="section-heading">
+        <p class="eyebrow">Church Gallery</p>
+        <h2>Church Gallery</h2>
+    </div>
+    <div class="moments-grid">
+        <?php foreach ($ministryMoments as $moment): ?>
+            <article class="moment-card">
+                <img src="<?= e($moment['image']); ?>" alt="<?= e($moment['title']); ?>">
+                <h3><?= e($moment['title']); ?></h3>
+            </article>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<section class="section split">
+    <div>
+        <p class="eyebrow">Leadership</p>
+        <h2>Meet the leaders serving the vision.</h2>
+        <p><?= e($church['leaders']); ?> lead the ministry through prayer, teaching, pastoral care, and kingdom service.</p>
+        <a class="button secondary" href="leaders.php">View Leaders</a>
+    </div>
+    <div class="leader-preview">
+        <?php foreach ($leaders as $leader): ?>
+            <article class="mini-profile">
+                <?php if ($leader['image']): ?>
+                    <img class="mini-profile-photo" src="<?= e($leader['image']); ?>" alt="<?= e($leader['name']); ?>">
+                <?php else: ?>
+                    <div class="avatar-placeholder"><?= e(substr($leader['name'], 0, 1)); ?></div>
+                <?php endif; ?>
+                <div>
+                    <h3><?= e($leader['name']); ?></h3>
+                    <p><?= e($leader['role']); ?></p>
+                </div>
             </article>
         <?php endforeach; ?>
     </div>
@@ -71,6 +120,23 @@ require_once __DIR__ . '/includes/header.php';
         <?php foreach ($socialLinks as $social): ?>
             <a href="<?= e($social['url']); ?>"><?= e($social['platform']); ?></a>
         <?php endforeach; ?>
+    </div>
+</section>
+
+<section class="section split">
+    <div>
+        <p class="eyebrow">Testimonies</p>
+        <h2>Stories of faith, growth, and encounter.</h2>
+        <p>Members and visitors can share testimonies, feedback, and experiences from services, conferences, fellowships, and ministry interactions.</p>
+    </div>
+    <div class="testimonial-preview">
+        <?php foreach (array_slice($testimonials, 0, 2) as $testimonial): ?>
+            <article class="quote-card">
+                <p>"<?= e($testimonial['message']); ?>"</p>
+                <strong><?= e($testimonial['name']); ?></strong>
+            </article>
+        <?php endforeach; ?>
+        <a class="button primary" href="testimonials.php">Read Testimonies</a>
     </div>
 </section>
 

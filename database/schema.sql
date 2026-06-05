@@ -1,0 +1,36 @@
+CREATE DATABASE IF NOT EXISTS agape_embassy_db
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE agape_embassy_db;
+
+CREATE TABLE IF NOT EXISTS admins (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(120) NOT NULL,
+    email VARCHAR(160) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(160) NOT NULL,
+    email VARCHAR(160) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS members (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(160) NOT NULL,
+    phone VARCHAR(40) NOT NULL,
+    email VARCHAR(160) NULL,
+    address VARCHAR(190) NULL,
+    born_again ENUM('Yes', 'No', 'Not Sure') NOT NULL DEFAULT 'Not Sure',
+    assembly VARCHAR(120) NOT NULL,
+    hbc_fellowship VARCHAR(120) NULL,
+    ministry_interest VARCHAR(160) NULL,
+    receive_messages TINYINT(1) NOT NULL DEFAULT 0,
+    notes TEXT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

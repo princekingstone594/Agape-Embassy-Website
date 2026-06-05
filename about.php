@@ -25,18 +25,23 @@ require_once __DIR__ . '/includes/header.php';
     <div class="values">
         <article>
             <span>01</span>
-            <h3>Worship</h3>
-            <p>We gather to honor God with reverence, joy, and expectation.</p>
+            <h3>Our Vision</h3>
+            <p>To be a transformed and empowered community of Christian believers.</p>
         </article>
         <article>
             <span>02</span>
-            <h3>Community</h3>
-            <p>We build fellowship across families, youth, campuses, and assemblies.</p>
+            <h3>Our Mission Statement</h3>
+            <p>To go into all the world reaching them with the gospel and with the gospel of Christ.</p>
         </article>
         <article>
             <span>03</span>
-            <h3>Mercy</h3>
-            <p>We serve people with compassion through outreach and practical care.</p>
+            <h3>Core Values</h3>
+            <p>Love, Excellence, Truth, Honesty, and Integrity.</p>
+        </article>
+        <article>
+            <span>04</span>
+            <h3>Call Scripture</h3>
+            <p>John 15:13</p>
         </article>
     </div>
 </section>

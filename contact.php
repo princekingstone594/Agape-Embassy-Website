@@ -19,6 +19,7 @@ $submitted = $_SERVER['REQUEST_METHOD'] === 'POST';
         <p><?= e($church['phone']); ?></p>
         <p><?= e($church['email']); ?></p>
         <p><?= e($church['leaders']); ?></p>
+        <a class="button secondary" href="register.php">Register as Member</a>
     </div>
 
     <form class="contact-form" method="post" action="contact.php">

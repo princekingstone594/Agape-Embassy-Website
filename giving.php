@@ -16,7 +16,7 @@ require_once __DIR__ . '/includes/header.php';
         <h2>Give with faith, honor, and a willing heart.</h2>
         <p>Your giving supports worship services, discipleship, outreach, conferences, assemblies, ministry projects, and the compassionate work of Agape Hand of Mercy.</p>
     </div>
-    <div class="giving-details">
+    <div class="giving-details" id="giving-details">
         <h3>Giving Details</h3>
         <p>Payment details will be added here.</p>
         <p class="meta">M-Pesa Paybill / Till / Bank details pending</p>
@@ -33,6 +33,7 @@ require_once __DIR__ . '/includes/header.php';
             <article class="info-card">
                 <h3><?= e($option['name']); ?></h3>
                 <p><?= e($option['summary']); ?></p>
+                <a class="button primary" href="#giving-details"><?= e($option['action']); ?></a>
             </article>
         <?php endforeach; ?>
     </div>

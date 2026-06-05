@@ -18,6 +18,7 @@ require_once __DIR__ . '/includes/header.php';
                 <div>
                     <h2><?= e($event['title']); ?></h2>
                     <p><?= e($event['time']); ?> at <?= e($event['location']); ?></p>
+                    <p><?= e($event['description']); ?></p>
                 </div>
             </article>
         <?php endforeach; ?>

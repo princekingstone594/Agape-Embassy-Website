@@ -32,6 +32,9 @@ require_once __DIR__ . '/includes/header.php';
             <span><?= e($department); ?></span>
         <?php endforeach; ?>
     </div>
+    <div class="section-actions">
+        <a class="button primary" href="contact.php">Join a Department Today</a>
+    </div>
 </section>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

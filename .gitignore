@@ -2,5 +2,7 @@
 vendor/
 node_modules/
 *.log
+storage/sessions/*
+!storage/sessions/.gitkeep
 /.idea/
 /.vscode/
