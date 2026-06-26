@@ -2,11 +2,15 @@
 $pageTitle = 'Dashboard';
 require_once __DIR__ . '/../includes/data.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/giving_requests.php';
+require_once __DIR__ . '/../includes/announcements.php';
 
 require_admin();
 
 $memberCount = (int) db()->query('SELECT COUNT(*) FROM members')->fetchColumn();
 $messageConsentCount = (int) db()->query('SELECT COUNT(*) FROM members WHERE receive_messages = 1')->fetchColumn();
+$givingRequestCount = count(giving_requests());
+$announcementCount = announcement_count();
 ?>
 <!doctype html>
 <html lang="en">
@@ -28,6 +32,8 @@ $messageConsentCount = (int) db()->query('SELECT COUNT(*) FROM members WHERE rec
         <nav>
             <a href="dashboard.php">Dashboard</a>
             <a href="members.php">Members</a>
+            <a href="giving.php">Giving</a>
+            <a href="announcements.php">Announcements</a>
             <a href="../index.php">Website</a>
             <a href="logout.php">Logout</a>
         </nav>
@@ -50,8 +56,12 @@ $messageConsentCount = (int) db()->query('SELECT COUNT(*) FROM members WHERE rec
                 <p>Can Receive Messages</p>
             </article>
             <article>
-                <span>Next</span>
-                <p>Email & SMS announcements</p>
+                <span><?= e((string) $givingRequestCount); ?></span>
+                <p>Giving Requests</p>
+            </article>
+            <article>
+                <span><?= e((string) $announcementCount); ?></span>
+                <p>Announcements</p>
             </article>
         </section>
     </main>

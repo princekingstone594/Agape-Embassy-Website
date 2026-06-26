@@ -1,12 +1,12 @@
 <?php
-$pageTitle = 'Members';
+$pageTitle = 'Giving Requests';
 require_once __DIR__ . '/../includes/data.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_once __DIR__ . '/../includes/giving_requests.php';
 
 require_admin();
 
-$statement = db()->query('SELECT * FROM members ORDER BY created_at DESC');
-$members = $statement->fetchAll();
+$requests = giving_requests();
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,7 +21,7 @@ $members = $statement->fetchAll();
         <a class="admin-brand" href="dashboard.php">
             <img src="../assets/images/agape-logo.jpg" alt="<?= e($church['name']); ?> logo">
             <span>
-                <strong>Members</strong>
+                <strong>Giving Requests</strong>
                 <small><?= e($church['short_name']); ?></small>
             </span>
         </a>
@@ -30,50 +30,46 @@ $members = $statement->fetchAll();
             <a href="members.php">Members</a>
             <a href="giving.php">Giving</a>
             <a href="announcements.php">Announcements</a>
-            <a href="../register.php">Register Member</a>
+            <a href="../index.php">Website</a>
             <a href="logout.php">Logout</a>
         </nav>
     </header>
 
     <main class="admin-main">
         <section class="admin-title">
-            <p class="eyebrow">Members</p>
-            <h1>Registered members and contacts.</h1>
-            <p>These contacts will later be available for email and SMS announcements.</p>
+            <p class="eyebrow">Giving</p>
+            <h1>Giving payment requests.</h1>
+            <p>These are giving details submitted from the public Giving page. STK status will update here after provider integration is connected.</p>
         </section>
 
         <section class="table-wrap">
             <table class="admin-table">
                 <thead>
                     <tr>
+                        <th>Date</th>
+                        <th>Giving Type</th>
                         <th>Name</th>
+                        <th>Amount</th>
+                        <th>Mode</th>
                         <th>Phone</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Born Again</th>
-                        <th>Assembly</th>
-                        <th>HBC</th>
-                        <th>Ministry</th>
-                        <th>Messages</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (!$members): ?>
+                    <?php if (!$requests): ?>
                         <tr>
-                            <td colspan="9">No members registered yet.</td>
+                            <td colspan="7">No giving requests submitted yet.</td>
                         </tr>
                     <?php endif; ?>
-                    <?php foreach ($members as $member): ?>
+                    <?php foreach ($requests as $request): ?>
                         <tr>
-                            <td><?= e($member['full_name']); ?></td>
-                            <td><?= e($member['phone']); ?></td>
-                            <td><?= e($member['email'] ?: '-'); ?></td>
-                            <td><?= e($member['address'] ?: '-'); ?></td>
-                            <td><?= e($member['born_again']); ?></td>
-                            <td><?= e($member['assembly']); ?></td>
-                            <td><?= e($member['hbc_fellowship'] ?: '-'); ?></td>
-                            <td><?= e($member['ministry_interest'] ?: '-'); ?></td>
-                            <td><?= $member['receive_messages'] ? 'Yes' : 'No'; ?></td>
+                            <td><?= e($request['created_at']); ?></td>
+                            <td><?= e($request['giving_type']); ?></td>
+                            <td><?= e($request['name']); ?></td>
+                            <td><?= e(number_format((float) $request['amount'], 2)); ?></td>
+                            <td><?= e($request['payment_mode']); ?></td>
+                            <td><?= e($request['phone']); ?></td>
+                            <td><?= e($request['status']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

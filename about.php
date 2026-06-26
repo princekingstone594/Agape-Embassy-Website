@@ -30,8 +30,8 @@ require_once __DIR__ . '/includes/header.php';
         </article>
         <article>
             <span>02</span>
-            <h3>Our Mission Statement</h3>
-            <p>To go into all the world reaching them with the gospel and with the gospel of Christ.</p>
+            <h3>Our Mission</h3>
+            <p>Raising a people who are committed to the great commission and the great commandment by bringing them to Christ and into the membership of God's family, developing them to Christ like maturity, equipping them to serve God &amp; serve in the society.</p>
         </article>
         <article>
             <span>03</span>

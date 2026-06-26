@@ -1,5 +1,16 @@
 <?php
 $pageTitle = 'Welcome';
+require_once __DIR__ . '/includes/data.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/announcements.php';
+
+if (!admin() && !user()) {
+    header('Location: login.php');
+    exit;
+}
+
+$homepageAnnouncements = latest_announcements(4);
+
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -43,6 +54,7 @@ require_once __DIR__ . '/includes/header.php';
                 <h3><?= e($event['title']); ?></h3>
                 <p><?= e($event['time']); ?> at <?= e($event['location']); ?></p>
                 <p><?= e($event['description']); ?></p>
+                <a class="button primary" href="<?= e($eventRegistrationUrl); ?>">Register for Event</a>
             </article>
         <?php endforeach; ?>
     </div>
@@ -115,6 +127,11 @@ require_once __DIR__ . '/includes/header.php';
         <p class="eyebrow">Online</p>
         <h2>Connect with the ministry on social media.</h2>
         <p>Follow services, announcements, conference updates, testimonies, and ministry moments online.</p>
+        <div class="stream-actions">
+            <?php foreach ($liveStreamLinks as $stream): ?>
+                <a class="button primary" href="<?= e($stream['url']); ?>" target="_blank" rel="noopener">Watch/Stream Live on <?= e($stream['platform']); ?></a>
+            <?php endforeach; ?>
+        </div>
     </div>
     <div class="social-preview">
         <?php foreach ($socialLinks as $social): ?>
@@ -137,6 +154,27 @@ require_once __DIR__ . '/includes/header.php';
             </article>
         <?php endforeach; ?>
         <a class="button primary" href="testimonials.php">Read Testimonies</a>
+    </div>
+</section>
+
+<section class="section band">
+    <div class="section-heading">
+        <p class="eyebrow">Announcements</p>
+        <h2>Latest ministry updates.</h2>
+    </div>
+    <div class="announcement-grid">
+        <?php if (!$homepageAnnouncements): ?>
+            <article class="announcement-card">
+                <p>No announcements have been published yet.</p>
+            </article>
+        <?php endif; ?>
+        <?php foreach ($homepageAnnouncements as $announcement): ?>
+            <article class="announcement-card">
+                <p class="meta"><?= e($announcement['created_at']); ?></p>
+                <h3><?= e($announcement['title']); ?></h3>
+                <p><?= nl2br(e($announcement['message'])); ?></p>
+            </article>
+        <?php endforeach; ?>
     </div>
 </section>
 

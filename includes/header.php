@@ -1,8 +1,11 @@
 <?php
 require_once __DIR__ . '/data.php';
+require_once __DIR__ . '/auth.php';
 
 $pageTitle = $pageTitle ?? $church['name'];
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
+$currentAdmin = admin();
+$currentUser = user();
 $primaryNavItems = [
     'index.php' => 'Home',
     'about.php' => 'About',
@@ -62,6 +65,19 @@ $secondaryNavItems = [
                 <?php foreach ($secondaryNavItems as $file => $label): ?>
                     <a class="<?= $currentPage === $file ? 'active' : ''; ?>" href="<?= e($file); ?>"><?= e($label); ?></a>
                 <?php endforeach; ?>
+            </div>
+            <div class="account-actions">
+                <?php if ($currentAdmin): ?>
+                    <span><?= e($currentAdmin['name']); ?></span>
+                    <a href="admin/dashboard.php">Admin Dashboard</a>
+                    <a href="logout.php">Logout</a>
+                <?php elseif ($currentUser): ?>
+                    <span><?= e($currentUser['name']); ?></span>
+                    <a href="logout.php">Logout</a>
+                <?php else: ?>
+                    <a href="login.php">Login</a>
+                    <a href="signup.php">Sign Up</a>
+                <?php endif; ?>
             </div>
         </nav>
     </header>

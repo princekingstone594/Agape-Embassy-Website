@@ -73,12 +73,12 @@ $socialLinks = [
     [
         'platform' => 'Facebook',
         'handle' => 'Agape Embassy Ministries International',
-        'url' => '#',
+        'url' => 'https://www.facebook.com/AgapeEmbassyMinistriesInternational',
     ],
     [
         'platform' => 'YouTube',
         'handle' => 'Agape Embassy Ministries International',
-        'url' => '#',
+        'url' => 'https://www.youtube.com/results?search_query=Agape+Embassy+Ministries+International',
     ],
     [
         'platform' => 'TikTok',
@@ -91,6 +91,19 @@ $socialLinks = [
         'url' => '#',
     ],
 ];
+
+$liveStreamLinks = [
+    [
+        'platform' => 'Facebook Live',
+        'url' => 'https://www.facebook.com/AgapeEmbassyMinistriesInternational/live',
+    ],
+    [
+        'platform' => 'YouTube Live',
+        'url' => 'https://www.youtube.com/results?search_query=Agape+Embassy+Ministries+International+live',
+    ],
+];
+
+$eventRegistrationUrl = 'contact.php';
 
 $givingOptions = [
     [
@@ -253,22 +266,32 @@ $events = [
 
 $sermons = [
     [
-        'title' => 'Loving God, Loving People',
+        'title' => 'The Salvation Package',
         'speaker' => 'Apst Robert Kingstone',
-        'scripture' => 'Matthew 22:37-39',
-        'date' => 'Latest Message',
-    ],
-    [
-        'title' => 'A House of Prayer',
-        'speaker' => 'Mrs Rev Millicent Kingstone',
-        'scripture' => 'Isaiah 56:7',
+        'scripture' => 'YouTube Sermon',
         'date' => 'Featured Message',
+        'url' => 'https://www.youtube.com/live/i-SBFlsmaxg?si=L-g8t3yYwokjFqX9',
     ],
     [
-        'title' => 'The Fire of Fellowship',
-        'speaker' => 'Agape Embassy Teaching Team',
-        'scripture' => 'Acts 2:42-47',
-        'date' => 'Campus Fellowship',
+        'title' => 'Do Not Give Room To The Devil',
+        'speaker' => 'Pst Noah Okundi',
+        'scripture' => 'YouTube Sermon',
+        'date' => 'Featured Message',
+        'url' => 'https://youtu.be/1bw5YGnodr8?si=7ycn4KO9Px2ioeJD',
+    ],
+    [
+        'title' => 'Who Are You?',
+        'speaker' => 'Pst Luke Ondeng\'',
+        'scripture' => 'YouTube Sermon',
+        'date' => 'Featured Message',
+        'url' => 'https://youtu.be/v8psKsf965A?si=NVmaaSWKuo-FhAiz',
+    ],
+    [
+        'title' => 'Faith and Purpose',
+        'speaker' => 'Prince Kingstone',
+        'scripture' => 'YouTube Sermon',
+        'date' => 'Featured Message',
+        'url' => 'https://www.youtube.com/live/5YysqE2UHFw?si=d4kDAWTDAnF8fhuV',
     ],
 ];
 

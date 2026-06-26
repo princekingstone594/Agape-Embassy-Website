@@ -19,7 +19,7 @@ require_once __DIR__ . '/includes/header.php';
                     <h2><?= e($sermon['title']); ?></h2>
                     <p><?= e($sermon['speaker']); ?> - <?= e($sermon['scripture']); ?></p>
                 </div>
-                <button type="button" class="button secondary">Listen</button>
+                <a class="button secondary" href="<?= e($sermon['url']); ?>" target="_blank" rel="noopener">Listen</a>
             </article>
         <?php endforeach; ?>
     </div>

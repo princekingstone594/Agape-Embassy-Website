@@ -19,6 +19,7 @@ require_once __DIR__ . '/includes/header.php';
                     <h2><?= e($event['title']); ?></h2>
                     <p><?= e($event['time']); ?> at <?= e($event['location']); ?></p>
                     <p><?= e($event['description']); ?></p>
+                    <a class="button primary" href="<?= e($eventRegistrationUrl); ?>">Register for Event</a>
                 </div>
             </article>
         <?php endforeach; ?>

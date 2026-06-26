@@ -52,6 +52,7 @@ function login_admin(string $email, string $password): bool
         'name' => $admin['name'],
         'email' => $admin['email'],
     ];
+    unset($_SESSION['user']);
 
     return true;
 }
@@ -72,6 +73,7 @@ function login_user(string $email, string $password): bool
         'name' => $user['name'],
         'email' => $user['email'],
     ];
+    unset($_SESSION['admin']);
 
     return true;
 }
@@ -92,6 +94,26 @@ function login_user_by_id(int $userId): void
         'name' => $user['name'],
         'email' => $user['email'],
     ];
+    unset($_SESSION['admin']);
+}
+
+function login_admin_by_id(int $adminId): void
+{
+    $statement = db()->prepare('SELECT id, name, email FROM admins WHERE id = :id LIMIT 1');
+    $statement->execute(['id' => $adminId]);
+    $admin = $statement->fetch();
+
+    if (!$admin) {
+        return;
+    }
+
+    start_session();
+    $_SESSION['admin'] = [
+        'id' => (int) $admin['id'],
+        'name' => $admin['name'],
+        'email' => $admin['email'],
+    ];
+    unset($_SESSION['user']);
 }
 
 function logout_admin(): void
@@ -111,4 +133,10 @@ function logout_user(): void
 {
     start_session();
     unset($_SESSION['user']);
+}
+
+function logout_account(): void
+{
+    start_session();
+    unset($_SESSION['admin'], $_SESSION['user']);
 }

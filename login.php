@@ -3,6 +3,11 @@ $pageTitle = 'Login';
 require_once __DIR__ . '/includes/data.php';
 require_once __DIR__ . '/includes/auth.php';
 
+if (admin()) {
+    header('Location: admin/dashboard.php');
+    exit;
+}
+
 if (user()) {
     header('Location: index.php');
     exit;
@@ -13,6 +18,11 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
+
+    if (login_admin($email, $password)) {
+        header('Location: admin/dashboard.php');
+        exit;
+    }
 
     if (login_user($email, $password)) {
         header('Location: index.php');
@@ -36,6 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <img class="admin-logo" src="assets/images/agape-logo.jpg" alt="<?= e($church['name']); ?> logo">
             <p class="eyebrow">Website Access</p>
             <h1>Login to continue.</h1>
+            <p>Admins are taken to the dashboard. Members continue to the website.</p>
 
             <?php if ($error): ?>
                 <div class="error-message"><?= e($error); ?></div>
