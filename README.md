@@ -36,7 +36,7 @@ C:\xampp\htdocs\
 Then start Apache in the XAMPP Control Panel and open:
 
 ```text
-http://localhost/so-i-have-a-php-environment
+http://localhost/Agape-Embassy-Website
 ```
 
 ## Update Church Content
