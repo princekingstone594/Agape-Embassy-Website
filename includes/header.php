@@ -6,15 +6,15 @@ $pageTitle = $pageTitle ?? $church['name'];
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
 $currentAdmin = admin();
 $currentUser = user();
-$primaryNavItems = [
+$visibleNavItems = [
     'index.php' => 'Home',
     'about.php' => 'About',
-    'leaders.php' => 'Leaders',
-    'ministries.php' => 'Ministries',
-    'events.php' => 'Events',
-];
-$secondaryNavItems = [
     'sermons.php' => 'Sermons',
+    'ministries.php' => 'Ministries',
+];
+$moreNavItems = [
+    'leaders.php' => 'Leaders',
+    'events.php' => 'Events',
     'testimonials.php' => 'Testimonials',
     'giving.php' => 'Giving',
     'register.php' => 'Register',
@@ -56,13 +56,14 @@ $secondaryNavItems = [
                 <strong>Menu</strong>
                 <button type="button" class="menu-close" data-close-menu aria-label="Close menu">Close</button>
             </div>
-            <div class="nav-row primary-nav">
-                <?php foreach ($primaryNavItems as $file => $label): ?>
+            <div class="nav-main">
+                <?php foreach ($visibleNavItems as $file => $label): ?>
                     <a class="<?= $currentPage === $file ? 'active' : ''; ?>" href="<?= e($file); ?>"><?= e($label); ?></a>
                 <?php endforeach; ?>
+                <button type="button" class="see-more-toggle" aria-expanded="false" aria-controls="more-menu">See More</button>
             </div>
-            <div class="nav-row secondary-nav">
-                <?php foreach ($secondaryNavItems as $file => $label): ?>
+            <div class="nav-more" id="more-menu">
+                <?php foreach ($moreNavItems as $file => $label): ?>
                     <a class="<?= $currentPage === $file ? 'active' : ''; ?>" href="<?= e($file); ?>"><?= e($label); ?></a>
                 <?php endforeach; ?>
             </div>
