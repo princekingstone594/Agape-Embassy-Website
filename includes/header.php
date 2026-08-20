@@ -6,20 +6,23 @@ $pageTitle = $pageTitle ?? $church['name'];
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
 $currentAdmin = admin();
 $currentUser = user();
-$primaryNavItems = [
+$currentAccount = $currentAdmin ?: $currentUser;
+$visibleNavItems = [
     'index.php' => 'Home',
     'about.php' => 'About',
     'leaders.php' => 'Leaders',
     'ministries.php' => 'Ministries',
-    'events.php' => 'Events',
 ];
-$secondaryNavItems = [
+$moreNavItems = [
+    'events.php' => 'Events',
     'sermons.php' => 'Sermons',
     'testimonials.php' => 'Testimonials',
     'giving.php' => 'Giving',
     'register.php' => 'Register',
     'contact.php' => 'Contact',
 ];
+$profileImage = $currentAccount['profile_image'] ?? '';
+$profileInitial = strtoupper(substr($currentAccount['name'] ?? 'A', 0, 1));
 ?>
 <!doctype html>
 <html lang="en">
@@ -36,10 +39,6 @@ $secondaryNavItems = [
             <img class="brand-logo" src="assets/images/agape-logo.jpg" alt="<?= e($church['name']); ?> logo">
             <span class="brand-copy">
                 <strong class="brand-name"><?= e($church['short_name']); ?></strong>
-                <span class="brand-meta">
-                    <small><?= e($church['tagline']); ?></small>
-                    <small><?= e($church['scripture']); ?></small>
-                </span>
             </span>
         </a>
 
@@ -57,22 +56,41 @@ $secondaryNavItems = [
                 <button type="button" class="menu-close" data-close-menu aria-label="Close menu">Close</button>
             </div>
             <div class="nav-row primary-nav">
-                <?php foreach ($primaryNavItems as $file => $label): ?>
+                <?php foreach ($visibleNavItems as $file => $label): ?>
                     <a class="<?= $currentPage === $file ? 'active' : ''; ?>" href="<?= e($file); ?>"><?= e($label); ?></a>
                 <?php endforeach; ?>
-            </div>
-            <div class="nav-row secondary-nav">
-                <?php foreach ($secondaryNavItems as $file => $label): ?>
-                    <a class="<?= $currentPage === $file ? 'active' : ''; ?>" href="<?= e($file); ?>"><?= e($label); ?></a>
-                <?php endforeach; ?>
+                <div class="more-nav-wrap">
+                    <button class="see-more-toggle" type="button" aria-expanded="false" aria-controls="more-navigation" data-see-more-toggle>
+                        See more
+                    </button>
+                    <div class="more-nav" id="more-navigation" data-more-nav hidden>
+                        <?php foreach ($moreNavItems as $file => $label): ?>
+                            <a class="<?= $currentPage === $file ? 'active' : ''; ?>" href="<?= e($file); ?>"><?= e($label); ?></a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
             </div>
             <div class="account-actions">
                 <?php if ($currentAdmin): ?>
-                    <span><?= e($currentAdmin['name']); ?></span>
-                    <a href="admin/dashboard.php">Admin Dashboard</a>
+                    <span class="profile-chip">
+                        <?php if ($profileImage): ?>
+                            <img class="profile-avatar" src="<?= e($profileImage); ?>" alt="<?= e($currentAdmin['name']); ?> profile picture">
+                        <?php else: ?>
+                            <span class="profile-initial"><?= e($profileInitial); ?></span>
+                        <?php endif; ?>
+                        <span><?= e($currentAdmin['name']); ?></span>
+                    </span>
+                    <a href="admin/dashboard.php">Dashboard</a>
                     <a href="logout.php">Logout</a>
                 <?php elseif ($currentUser): ?>
-                    <span><?= e($currentUser['name']); ?></span>
+                    <span class="profile-chip">
+                        <?php if ($profileImage): ?>
+                            <img class="profile-avatar" src="<?= e($profileImage); ?>" alt="<?= e($currentUser['name']); ?> profile picture">
+                        <?php else: ?>
+                            <span class="profile-initial"><?= e($profileInitial); ?></span>
+                        <?php endif; ?>
+                        <span><?= e($currentUser['name']); ?></span>
+                    </span>
                     <a href="logout.php">Logout</a>
                 <?php else: ?>
                     <a href="login.php">Login</a>

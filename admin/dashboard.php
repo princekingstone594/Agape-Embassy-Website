@@ -11,6 +11,9 @@ $memberCount = (int) db()->query('SELECT COUNT(*) FROM members')->fetchColumn();
 $messageConsentCount = (int) db()->query('SELECT COUNT(*) FROM members WHERE receive_messages = 1')->fetchColumn();
 $givingRequestCount = count(giving_requests());
 $announcementCount = announcement_count();
+$currentAdmin = admin();
+$adminProfileImage = $currentAdmin['profile_image'] ?? '';
+$adminProfileInitial = strtoupper(substr($currentAdmin['name'] ?? 'A', 0, 1));
 ?>
 <!doctype html>
 <html lang="en">
@@ -29,14 +32,24 @@ $announcementCount = announcement_count();
                 <small><?= e($church['short_name']); ?></small>
             </span>
         </a>
-        <nav>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="members.php">Members</a>
-            <a href="giving.php">Giving</a>
-            <a href="announcements.php">Announcements</a>
-            <a href="../index.php">Website</a>
-            <a href="logout.php">Logout</a>
-        </nav>
+        <div class="admin-header-actions">
+            <nav>
+                <a href="dashboard.php">Dashboard</a>
+                <a href="members.php">Members</a>
+                <a href="giving.php">Giving</a>
+                <a href="announcements.php">Announcements</a>
+                <a href="../index.php">Website</a>
+                <a href="logout.php">Logout</a>
+            </nav>
+            <span class="profile-chip admin-profile-chip">
+                <?php if ($adminProfileImage): ?>
+                    <img class="profile-avatar" src="../<?= e($adminProfileImage); ?>" alt="<?= e($currentAdmin['name']); ?> profile picture">
+                <?php else: ?>
+                    <span class="profile-initial"><?= e($adminProfileInitial); ?></span>
+                <?php endif; ?>
+                <span><?= e($currentAdmin['name']); ?></span>
+            </span>
+        </div>
     </header>
 
     <main class="admin-main">
@@ -67,3 +80,5 @@ $announcementCount = announcement_count();
     </main>
 </body>
 </html>
+
+

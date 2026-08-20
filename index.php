@@ -10,6 +10,8 @@ if (!admin() && !user()) {
 }
 
 $homepageAnnouncements = latest_announcements(4);
+$visitor = admin() ?: user();
+$visitorName = $visitor['name'] ?? 'Friend';
 
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -187,3 +189,5 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
+
+

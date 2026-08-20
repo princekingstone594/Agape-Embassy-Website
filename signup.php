@@ -13,6 +13,51 @@ if (user()) {
     exit;
 }
 
+function save_profile_image(array $file, array &$errors): string
+{
+    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+        return '';
+    }
+
+    if (($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
+        $errors[] = 'Profile picture could not be uploaded. Please try another image.';
+        return '';
+    }
+
+    if (($file['size'] ?? 0) > 4 * 1024 * 1024) {
+        $errors[] = 'Profile picture must be 4MB or smaller.';
+        return '';
+    }
+
+    $allowedTypes = [
+        'image/jpeg' => 'jpg',
+        'image/png' => 'png',
+        'image/webp' => 'webp',
+        'image/gif' => 'gif',
+    ];
+    $detectedType = mime_content_type($file['tmp_name']);
+
+    if (!isset($allowedTypes[$detectedType])) {
+        $errors[] = 'Profile picture must be a JPG, PNG, WEBP, or GIF image.';
+        return '';
+    }
+
+    $uploadDirectory = __DIR__ . '/assets/images/profiles';
+    if (!is_dir($uploadDirectory)) {
+        mkdir($uploadDirectory, 0775, true);
+    }
+
+    $filename = 'profile-' . bin2hex(random_bytes(10)) . '.' . $allowedTypes[$detectedType];
+    $destination = $uploadDirectory . '/' . $filename;
+
+    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        $errors[] = 'Profile picture could not be saved. Please try again.';
+        return '';
+    }
+
+    return 'assets/images/profiles/' . $filename;
+}
+
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -53,13 +98,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    $profileImage = '';
+    if (!$errors) {
+        $profileImage = save_profile_image($_FILES['profile_image'] ?? [], $errors);
+    }
+
     if (!$errors) {
         $table = $accountType === 'admin' ? 'admins' : 'users';
-        $statement = db()->prepare("INSERT INTO {$table} (name, email, password_hash) VALUES (:name, :email, :password_hash)");
+        $statement = db()->prepare("INSERT INTO {$table} (name, email, profile_image, password_hash) VALUES (:name, :email, :profile_image, :password_hash)");
 
         $statement->execute([
             'name' => $name,
             'email' => $email,
+            'profile_image' => $profileImage,
             'password_hash' => password_hash($password, PASSWORD_DEFAULT),
         ]);
 
@@ -85,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="admin-auth-page">
     <main class="admin-auth-shell">
-        <form class="admin-card" method="post" action="signup.php">
+        <form class="admin-card" method="post" action="signup.php" enctype="multipart/form-data">
             <img class="admin-logo" src="assets/images/agape-logo.jpg" alt="<?= e($church['name']); ?> logo">
             <p class="eyebrow">Website Access</p>
             <h1>Create your access account.</h1>
@@ -102,6 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>
                 Email
                 <input type="email" name="email" value="<?= e($_POST['email'] ?? ''); ?>" required>
+            </label>
+            <label>
+                Profile Picture
+                <input type="file" name="profile_image" accept="image/jpeg,image/png,image/webp,image/gif">
             </label>
             <label>
                 Account Type

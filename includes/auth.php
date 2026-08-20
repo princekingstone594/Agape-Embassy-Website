@@ -16,6 +16,16 @@ function start_session(): void
     }
 }
 
+function account_session_payload(array $account): array
+{
+    return [
+        'id' => (int) $account['id'],
+        'name' => $account['name'],
+        'email' => $account['email'],
+        'profile_image' => $account['profile_image'] ?? '',
+    ];
+}
+
 function admin(): ?array
 {
     start_session();
@@ -38,7 +48,7 @@ function require_admin(): void
 
 function login_admin(string $email, string $password): bool
 {
-    $statement = db()->prepare('SELECT id, name, email, password_hash FROM admins WHERE email = :email LIMIT 1');
+    $statement = db()->prepare('SELECT id, name, email, profile_image, password_hash FROM admins WHERE email = :email LIMIT 1');
     $statement->execute(['email' => $email]);
     $admin = $statement->fetch();
 
@@ -47,11 +57,7 @@ function login_admin(string $email, string $password): bool
     }
 
     start_session();
-    $_SESSION['admin'] = [
-        'id' => (int) $admin['id'],
-        'name' => $admin['name'],
-        'email' => $admin['email'],
-    ];
+    $_SESSION['admin'] = account_session_payload($admin);
     unset($_SESSION['user']);
 
     return true;
@@ -59,7 +65,7 @@ function login_admin(string $email, string $password): bool
 
 function login_user(string $email, string $password): bool
 {
-    $statement = db()->prepare('SELECT id, name, email, password_hash FROM users WHERE email = :email LIMIT 1');
+    $statement = db()->prepare('SELECT id, name, email, profile_image, password_hash FROM users WHERE email = :email LIMIT 1');
     $statement->execute(['email' => $email]);
     $user = $statement->fetch();
 
@@ -68,11 +74,7 @@ function login_user(string $email, string $password): bool
     }
 
     start_session();
-    $_SESSION['user'] = [
-        'id' => (int) $user['id'],
-        'name' => $user['name'],
-        'email' => $user['email'],
-    ];
+    $_SESSION['user'] = account_session_payload($user);
     unset($_SESSION['admin']);
 
     return true;
@@ -80,7 +82,7 @@ function login_user(string $email, string $password): bool
 
 function login_user_by_id(int $userId): void
 {
-    $statement = db()->prepare('SELECT id, name, email FROM users WHERE id = :id LIMIT 1');
+    $statement = db()->prepare('SELECT id, name, email, profile_image FROM users WHERE id = :id LIMIT 1');
     $statement->execute(['id' => $userId]);
     $user = $statement->fetch();
 
@@ -89,17 +91,13 @@ function login_user_by_id(int $userId): void
     }
 
     start_session();
-    $_SESSION['user'] = [
-        'id' => (int) $user['id'],
-        'name' => $user['name'],
-        'email' => $user['email'],
-    ];
+    $_SESSION['user'] = account_session_payload($user);
     unset($_SESSION['admin']);
 }
 
 function login_admin_by_id(int $adminId): void
 {
-    $statement = db()->prepare('SELECT id, name, email FROM admins WHERE id = :id LIMIT 1');
+    $statement = db()->prepare('SELECT id, name, email, profile_image FROM admins WHERE id = :id LIMIT 1');
     $statement->execute(['id' => $adminId]);
     $admin = $statement->fetch();
 
@@ -108,11 +106,7 @@ function login_admin_by_id(int $adminId): void
     }
 
     start_session();
-    $_SESSION['admin'] = [
-        'id' => (int) $admin['id'],
-        'name' => $admin['name'],
-        'email' => $admin['email'],
-    ];
+    $_SESSION['admin'] = account_session_payload($admin);
     unset($_SESSION['user']);
 }
 

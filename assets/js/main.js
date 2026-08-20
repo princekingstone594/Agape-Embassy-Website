@@ -40,6 +40,42 @@ if (toggle && nav) {
     });
 }
 
+const seeMoreToggle = document.querySelector('[data-see-more-toggle]');
+const moreNav = document.querySelector('[data-more-nav]');
+
+if (seeMoreToggle && moreNav) {
+    const closeMoreNav = () => {
+        moreNav.hidden = true;
+        seeMoreToggle.setAttribute('aria-expanded', 'false');
+    };
+
+    const openMoreNav = () => {
+        moreNav.hidden = false;
+        seeMoreToggle.setAttribute('aria-expanded', 'true');
+    };
+
+    seeMoreToggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+
+        if (moreNav.hidden) {
+            openMoreNav();
+            return;
+        }
+
+        closeMoreNav();
+    });
+
+    moreNav.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+
+    document.addEventListener('click', closeMoreNav);
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeMoreNav();
+        }
+    });
+}
 const paymentModal = document.querySelector('[data-payment-modal]');
 const paymentForm = document.querySelector('[data-payment-form]');
 
@@ -127,3 +163,4 @@ if (paymentModal && paymentForm) {
         }
     });
 }
+
