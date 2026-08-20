@@ -10,12 +10,12 @@ $currentAccount = $currentAdmin ?: $currentUser;
 $visibleNavItems = [
     'index.php' => 'Home',
     'about.php' => 'About',
-    'leaders.php' => 'Leaders',
+    'sermons.php' => 'Sermons',
     'ministries.php' => 'Ministries',
 ];
 $moreNavItems = [
+    'leaders.php' => 'Leaders',
     'events.php' => 'Events',
-    'sermons.php' => 'Sermons',
     'testimonials.php' => 'Testimonials',
     'giving.php' => 'Giving',
     'register.php' => 'Register',

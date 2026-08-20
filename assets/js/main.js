@@ -2,12 +2,23 @@ const toggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.site-nav');
 const backdrop = document.querySelector('.nav-backdrop');
 const closeControls = document.querySelectorAll('[data-close-menu]');
+const seeMoreToggle = document.querySelector('.see-more-toggle');
+const navMore = document.querySelector('.nav-more');
 
 if (toggle && nav) {
+    const closeSeeMore = () => {
+        if (navMore && seeMoreToggle) {
+            navMore.classList.remove('show');
+            seeMoreToggle.classList.remove('active');
+            seeMoreToggle.setAttribute('aria-expanded', 'false');
+        }
+    };
+
     const closeMenu = () => {
         nav.classList.remove('open');
         document.body.classList.remove('menu-open');
         toggle.setAttribute('aria-expanded', 'false');
+        closeSeeMore();
     };
 
     const openMenu = () => {
@@ -38,6 +49,30 @@ if (toggle && nav) {
             closeMenu();
         }
     });
+
+    // See More dropdown toggle (desktop)
+    if (seeMoreToggle && navMore) {
+        seeMoreToggle.addEventListener('click', () => {
+            const isOpen = navMore.classList.contains('show');
+            if (isOpen) {
+                closeSeeMore();
+            } else {
+                navMore.classList.add('show');
+                seeMoreToggle.classList.add('active');
+                seeMoreToggle.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        navMore.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', closeSeeMore);
+        });
+
+        document.addEventListener('click', (event) => {
+            if (!seeMoreToggle.contains(event.target) && !navMore.contains(event.target)) {
+                closeSeeMore();
+            }
+        });
+    }
 }
 
 const seeMoreToggle = document.querySelector('[data-see-more-toggle]');
